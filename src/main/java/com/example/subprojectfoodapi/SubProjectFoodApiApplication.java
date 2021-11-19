@@ -8,6 +8,7 @@ public class SubProjectFoodApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SubProjectFoodApiApplication.class, args);
+
     }
 
 }
