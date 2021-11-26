@@ -32,11 +32,9 @@ public class Customer {
 
     public Customer() {
     }
-
     public Customer(String name, String phoneNumber, String address) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-
     }
 }
