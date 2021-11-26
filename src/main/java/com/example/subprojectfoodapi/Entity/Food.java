@@ -24,8 +24,6 @@ public class Food {
 
     private String name;
 
-    private Type type;
-
     private double price;
 
     private String description;
