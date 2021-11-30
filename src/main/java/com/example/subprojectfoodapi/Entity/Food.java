@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-@Table(name="Foods")
+@Table(name="tbl_foods")
 public class Food {
 
     @Id
@@ -27,5 +27,8 @@ public class Food {
     private double price;
 
     private String description;
+
+    @Column(length = 64)
+    private String logo;
 
 }

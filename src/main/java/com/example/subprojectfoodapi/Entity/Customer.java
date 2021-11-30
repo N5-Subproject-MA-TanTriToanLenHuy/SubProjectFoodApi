@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @Builder
-@Table(name="Customers")
+@Table(name="tbl_customers")
 public class Customer {
 
     @Id
