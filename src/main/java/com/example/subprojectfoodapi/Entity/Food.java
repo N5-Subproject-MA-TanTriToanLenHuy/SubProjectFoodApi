@@ -28,7 +28,6 @@ public class Food {
 
     private String description;
 
-    @Column(length = 64)
-    private String logo;
+    private String urlImage;
 
 }

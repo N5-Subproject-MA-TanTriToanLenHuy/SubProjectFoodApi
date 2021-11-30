@@ -33,27 +33,14 @@ public class FoodController {
     }
 
     // get all food
-    @GetMapping("/all")
+    @GetMapping
     public List<Food> getAllFood(){
         return foodRepository.findAll();
     }
 
     // save food
     @PostMapping
-    public String saveFood(@RequestParam String name,
-                           @RequestParam double price,
-                           @RequestParam String description,
-                           @RequestParam MultipartFile image) throws IOException {
-
-        Path imagePath = resolveImagePath(image);
-
-        Food food = Food.builder()
-                .name(name)
-                .price(price)
-                .description(description)
-                .logo(imagePath.resolve(image.getOriginalFilename()).toString())
-                .build();
-
+    public String saveFood(@RequestBody Food food){
         foodRepository.save(food);
         return "save success: "+ LocalDateTime.now();
     }
@@ -66,37 +53,8 @@ public class FoodController {
 
     // update food
     @PutMapping("{id}")
-    public Food updateFood(@PathVariable int id,
-                           @RequestParam String name,
-                           @RequestParam double price,
-                           @RequestParam String description,
-                           @RequestParam MultipartFile image) throws IOException {
-
-        Path imagePath = resolveImagePath(image);
-
-        Food food = Food.builder()
-                .id(id)
-                .name(name)
-                .price(price)
-                .description(description)
-                .logo(imagePath.resolve(image.getOriginalFilename()).toString())
-                .build();
-
+    public Food updateFood(@RequestBody Food food, @PathVariable int id){
+        food.setId(id);
         return foodRepository.save(food);
-    }
-
-    private Path resolveImagePath(MultipartFile image) throws IOException {
-        Path staticPath = Paths.get("static");
-        Path imagePath = Paths.get("images");
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-        }
-        Path file = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(imagePath).resolve(image.getOriginalFilename());
-        try (OutputStream os = Files.newOutputStream(file)) {
-            os.write(image.getBytes());
-        }
-
-        return imagePath;
     }
 }
