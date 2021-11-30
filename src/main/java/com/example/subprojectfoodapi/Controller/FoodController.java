@@ -16,20 +16,36 @@ import java.util.List;
 public class FoodController {
     @Autowired
     private FoodRepository foodRepository;
+
     // get food by id
     @GetMapping("/{id}")
     public Food getFood(@PathVariable int id){
         return foodRepository.findById(id).get();
     }
+
     // get all food
-    @GetMapping()
+    @GetMapping
     public List<Food> getAllFood(){
         return foodRepository.findAll();
     }
+
     // save food
-    @PostMapping()
+    @PostMapping
     public String saveFood(@RequestBody Food food){
         foodRepository.save(food);
         return "save success: "+ LocalDateTime.now();
+    }
+
+    // delete food
+    @DeleteMapping("/{id}")
+    public void deleteFood(@PathVariable int id){
+        foodRepository.deleteById(id);
+    }
+
+    // update food
+    @PutMapping("{id}")
+    public Food updateFood(@RequestBody Food food, @PathVariable int id){
+        food.setId(id);
+        return foodRepository.save(food);
     }
 }
