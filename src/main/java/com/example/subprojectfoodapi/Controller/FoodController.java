@@ -35,11 +35,10 @@ public class FoodController {
 
     // get all food trending
     @GetMapping("/trending")
-    public List<Food> trendingFood(){
-        Pageable pageable;
-        int page = foodRepository.findAll().size() - 10;
-        int size = foodRepository.findAll().size();
+    public List<Food> trendingFood(@RequestParam(defaultValue = "0") int page
+            , @RequestParam(defaultValue = "0") int size){
 
+        Pageable pageable;
         if(page < 0 || size <= 0)
             pageable = Pageable.unpaged();
         else
@@ -50,19 +49,9 @@ public class FoodController {
 
     // get all food favourites
     @GetMapping("/favourites")
-    public List<Food> favoritesFood(){
+    public List<Food> favoritesFood(@RequestParam(defaultValue = "0") int page
+            , @RequestParam(defaultValue = "0") int size){
         Pageable pageable;
-        Pageable pageable1;
-        int page1 = 0;
-        int size1 = 0;
-
-        if(page1 < 0 || size1 <= 0)
-            pageable1 = Pageable.unpaged();
-        else
-            pageable1 = PageRequest.of(page1, size1);
-
-        int page = foodRepository.findAllByPrice(pageable1).size() - 10;
-        int size = foodRepository.findAllByPrice(pageable1).size();
 
         if(page < 0 || size <= 0)
             pageable = Pageable.unpaged();
