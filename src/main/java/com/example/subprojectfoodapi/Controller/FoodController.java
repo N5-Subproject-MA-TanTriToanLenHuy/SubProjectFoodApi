@@ -7,8 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/food")
 public class FoodController {
 
-    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
+//    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
     @Autowired
     private FoodRepository foodRepository;
@@ -33,14 +31,39 @@ public class FoodController {
     // get all food
     @GetMapping("/trending")
     public List<Food> trendingFood(){
-        return foodRepository.findAll(PageRequest.of(foodRepository.findAll().size() - 10, foodRepository.findAll().size())).getContent();
+        Pageable pageable;
+        int page = foodRepository.findAll().size() - 10;
+        int size = foodRepository.findAll().size();
+
+        if(page < 0 || size <= 0)
+            pageable = Pageable.unpaged();
+        else
+            pageable = PageRequest.of(page, size);
+
+        return foodRepository.findAll(pageable).getContent();
     }
 
-    @GetMapping("/favorites")
+    @GetMapping("/favourites")
     public List<Food> favoritesFood(){
-        return foodRepository.findAllByPrice(
-                PageRequest.of(foodRepository.findAllByPrice(Pageable.unpaged()).size() - 10,
-                        foodRepository.findAllByPrice(Pageable.unpaged()).size()));
+        Pageable pageable;
+        Pageable pageable1;
+        int page1 = 0;
+        int size1 = 0;
+
+        if(page1 < 0 || size1 <= 0)
+            pageable1 = Pageable.unpaged();
+        else
+            pageable1 = PageRequest.of(page1, size1);
+
+        int page = foodRepository.findAllByPrice(pageable1).size() - 10;
+        int size = foodRepository.findAllByPrice(pageable1).size();
+
+        if(page < 0 || size <= 0)
+            pageable = Pageable.unpaged();
+        else
+            pageable = PageRequest.of(page, size);
+
+        return foodRepository.findAllByPrice(pageable);
     }
 
     // save food
