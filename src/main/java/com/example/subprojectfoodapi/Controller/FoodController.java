@@ -3,12 +3,10 @@ package com.example.subprojectfoodapi.Controller;
 import com.example.subprojectfoodapi.Entity.Food;
 import com.example.subprojectfoodapi.Repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -33,9 +31,16 @@ public class FoodController {
     }
 
     // get all food
-    @GetMapping
-    public List<Food> getAllFood(){
-        return foodRepository.findAll();
+    @GetMapping("/trending")
+    public List<Food> trendingFood(){
+        return foodRepository.findAll(PageRequest.of(foodRepository.findAll().size() - 10, foodRepository.findAll().size())).getContent();
+    }
+
+    @GetMapping("/favorites")
+    public List<Food> favoritesFood(){
+        return foodRepository.findAllByPrice(
+                PageRequest.of(foodRepository.findAllByPrice(Pageable.unpaged()).size() - 10,
+                        foodRepository.findAllByPrice(Pageable.unpaged()).size()));
     }
 
     // save food
