@@ -28,14 +28,14 @@ public class FoodController {
         return foodRepository.findById(id).get();
     }
 
-    @GetMapping
-    public List<Food> allFoods(){
-        return foodRepository.findAll();
-    }
+//    @GetMapping
+//    public List<Food> allFoods(){
+//        return foodRepository.findAll();
+//    }
 
-    // get all food trending
-    @GetMapping("/trending")
-    public List<Food> trendingFood(@RequestParam(defaultValue = "0") int page
+    // get list food trending
+    @GetMapping("/t")
+    public List<Food> listTrendingFood(@RequestParam(defaultValue = "0") int page
             , @RequestParam(defaultValue = "0") int size){
 
         Pageable pageable;
@@ -47,9 +47,16 @@ public class FoodController {
         return foodRepository.findAll(pageable).getContent();
     }
 
-    // get all food favourites
-    @GetMapping("/favourites")
-    public List<Food> favoritesFood(@RequestParam(defaultValue = "0") int page
+    // get all food trending
+    @GetMapping("/trengding")
+    public List<Food> trendingFood(){
+        return listTrendingFood(listTrendingFood(0, 0).size() - 10,
+                listTrendingFood(0, 0).size());
+    }
+
+    // get list food favourites
+    @GetMapping("/f")
+    public List<Food> listFavouritesFood(@RequestParam(defaultValue = "0") int page
             , @RequestParam(defaultValue = "0") int size){
         Pageable pageable;
 
@@ -59,6 +66,13 @@ public class FoodController {
             pageable = PageRequest.of(page, size);
 
         return foodRepository.findAllByPrice(pageable);
+    }
+
+    // get all food favourites
+    @GetMapping("/favourites")
+    public List<Food> favouritesFood(){
+        return listFavouritesFood(listFavouritesFood(0, 0).size() - 10,
+                listFavouritesFood(0, 0).size());
     }
 
     // save food
