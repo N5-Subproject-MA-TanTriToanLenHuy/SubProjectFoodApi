@@ -29,16 +29,7 @@ public class FoodController {
     }
 
     @GetMapping
-    public List<Food> allFoods(){
-        return foodRepository.findAll();
-    }
-
-    // get all food trending
-    @GetMapping("/trending")
-    public List<Food> trendingFood(){
-
-        int size = (int) foodRepository.count();
-        int page = 10;
+    public List<Food> allFoods(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size){
 
         Pageable pageable;
         if(page < 0 || size <= 0)
@@ -49,21 +40,42 @@ public class FoodController {
         return foodRepository.findAll(pageable).getContent();
     }
 
+    // get all food trending
+    @GetMapping("/trending")
+    public List<Food> trendingFood(){
+
+        int totalPage = 0;
+        int count = (int) foodRepository.count();
+        int page = 0;
+
+        if (count % 10 == 0) {
+            totalPage = count / 10;
+        } else {
+            totalPage = count / 10 + 1;
+        }
+
+        page = totalPage - 1;
+
+        return foodRepository.findAll(PageRequest.of(page, 10)).getContent();
+    }
+
     // get all food favourites
     @GetMapping("/favourites")
     public List<Food> favouritesFood(){
 
-        int size = foodRepository.countAllByPrice();
-        int page = 3;
+        int count = foodRepository.countAllByPrice();
+        int totalPage = 0;
+        int page = 0;
 
-        Pageable pageable;
+        if (count % 10 == 0) {
+            totalPage = count / 10;
+        } else {
+            totalPage = count / 10 + 1;
+        }
 
-        if(page < 0 || size <= 0)
-            pageable = Pageable.unpaged();
-        else
-            pageable = PageRequest.of(page, size);
+        page = totalPage - 1;
 
-        return foodRepository.findAllByPrice(pageable);
+        return foodRepository.findAllByPrice(PageRequest.of(page, 10));
     }
 
     // save food
