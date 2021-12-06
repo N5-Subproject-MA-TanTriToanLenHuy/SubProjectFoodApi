@@ -16,8 +16,6 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food,Integer> {
 
     @Query("SELECT f FROM Food f WHERE f.price <= 10")
-    List<Food> findAllByPrice(Pageable pageable);
+    List<Food> findAllByPrice();
 
-    @Query("SELECT count(f) FROM Food f WHERE f.price <= 10")
-    int countAllByPrice();
 }
