@@ -28,17 +28,17 @@ public class FoodController {
         return foodRepository.findById(id).get();
     }
 
-//    @GetMapping
-//    public List<Food> allFoods(){
-//        return foodRepository.findAll();
-//    }
+    @GetMapping
+    public List<Food> allFoods(){
+        return foodRepository.findAll();
+    }
 
     // get all food trending
     @GetMapping("/trending")
     public List<Food> trendingFood(){
 
         int size = (int) foodRepository.count();
-        int page = size - 10;
+        int page = 0;
 
         Pageable pageable;
         if(page < 0 || size <= 0)
@@ -54,7 +54,7 @@ public class FoodController {
     public List<Food> favouritesFood(){
 
         int size = foodRepository.countAllByPrice();
-        int page = size - 10;
+        int page = 0;
 
         Pageable pageable;
 
