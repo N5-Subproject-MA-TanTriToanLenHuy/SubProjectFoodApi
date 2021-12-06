@@ -38,7 +38,7 @@ public class FoodController {
     public List<Food> trendingFood(){
 
         int size = (int) foodRepository.count();
-        int page = 0;
+        int page = 10;
 
         Pageable pageable;
         if(page < 0 || size <= 0)
@@ -54,7 +54,7 @@ public class FoodController {
     public List<Food> favouritesFood(){
 
         int size = foodRepository.countAllByPrice();
-        int page = 0;
+        int page = 3;
 
         Pageable pageable;
 
