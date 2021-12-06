@@ -28,7 +28,12 @@ public class FoodController {
         return foodRepository.findById(id).get();
     }
 
-    // get all food
+    @GetMapping
+    public List<Food> allFoods(){
+        return foodRepository.findAll();
+    }
+
+    // get all food trending
     @GetMapping("/trending")
     public List<Food> trendingFood(){
         Pageable pageable;
@@ -43,6 +48,7 @@ public class FoodController {
         return foodRepository.findAll(pageable).getContent();
     }
 
+    // get all food favourites
     @GetMapping("/favourites")
     public List<Food> favoritesFood(){
         Pageable pageable;
