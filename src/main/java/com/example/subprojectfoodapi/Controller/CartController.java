@@ -33,6 +33,7 @@ public class CartController {
         if(cartService.findByName(cart.getName())){
             Cart c = cartRepository.findByName(cart.getName());
             c.setQuantity(c.getQuantity() + cart.getQuantity());
+            c.setPrice(c.getQuantity() * c.getPrice());
             return cartRepository.save(c);
         }else{
             return cartRepository.save(cart);
