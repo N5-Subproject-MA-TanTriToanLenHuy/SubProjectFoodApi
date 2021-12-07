@@ -26,4 +26,6 @@ public class Cart {
 
     private String urlImage;
 
+    private int quantity;
+
 }

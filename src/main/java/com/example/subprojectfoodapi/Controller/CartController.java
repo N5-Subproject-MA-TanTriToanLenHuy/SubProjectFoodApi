@@ -3,6 +3,7 @@ package com.example.subprojectfoodapi.Controller;
 
 import com.example.subprojectfoodapi.Entity.Cart;
 import com.example.subprojectfoodapi.Repository.CartRepository;
+import com.example.subprojectfoodapi.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ public class CartController {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CartService cartService;
+
     // get all cart
     @GetMapping("/carts")
     public List<Cart> findAllCart(){
@@ -25,6 +29,11 @@ public class CartController {
     // save cart
     @PostMapping
     public Cart saveCart(@RequestBody Cart cart){
+
+        if(cartService.findByName(cart.getName())){
+            cart.setQuantity(cart.getQuantity() + 1);
+        }
+
         return cartRepository.save(cart);
     }
 
