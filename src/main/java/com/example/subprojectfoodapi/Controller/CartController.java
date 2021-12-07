@@ -31,6 +31,8 @@ public class CartController {
     public Cart saveCart(@RequestBody Cart cart){
 
         if(cartService.findByName(cart.getName())){
+            Cart c = cartRepository.findByName(cart.getName());
+            cart.setId(c.getId());
             cart.setQuantity(cart.getQuantity() + 1);
         }
 
