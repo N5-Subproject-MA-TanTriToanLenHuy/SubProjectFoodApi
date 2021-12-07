@@ -32,11 +32,11 @@ public class CartController {
 
         if(cartService.findByName(cart.getName())){
             Cart c = cartRepository.findByName(cart.getName());
-            cart.setId(c.getId());
-            cart.setQuantity(cart.getQuantity() + 1);
+            c.setQuantity(c.getQuantity() + cart.getQuantity());
+            return cartRepository.save(c);
+        }else{
+            return cartRepository.save(cart);
         }
-
-        return cartRepository.save(cart);
     }
 
     // delete cart
