@@ -24,15 +24,14 @@ public class CartController {
 
     // save cart
     @PostMapping
-    public String saveCart(@RequestBody Cart cart){
-        cartRepository.save(cart);
-        return "save success" + LocalDateTime.now();
+    public Cart saveCart(@RequestBody Cart cart){
+        return cartRepository.save(cart);
     }
 
     // delete cart
     @DeleteMapping ("/{id}")
-    public void deleteCart(@PathVariable int cartId){
-        cartRepository.deleteById(cartId);
+    public void deleteCart(@PathVariable int id){
+        cartRepository.deleteById(id);
     }
 
 }
