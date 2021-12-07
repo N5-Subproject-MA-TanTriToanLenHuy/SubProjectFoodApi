@@ -30,7 +30,7 @@ public class CartController {
     }
 
     // delete cart
-    @PutMapping("/{id}")
+    @DeleteMapping ("/{id}")
     public void deleteCart(@PathVariable int cartId){
         cartRepository.deleteById(cartId);
     }
